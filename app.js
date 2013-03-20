@@ -60,9 +60,6 @@ io.sockets.on('connection', function (socket) {
   	if (client.hexists('scores', socket.id) && client.hget('scores', socket.id) < data){
   		client.hset('scores', socket.id, data);
   	}
-
-
-    client.hmset('scores', socket.id, data);
     //console.log(socket.id);
     //console.log(data);
   });
