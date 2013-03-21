@@ -293,8 +293,9 @@ function gameOver() {
         socket.on('Get Scores', function (data) {
             $('#post-scores').html("");
             for (var i = data.length - 1; i >= 0; i--) {
-                if (score == data[i]) {
+                if (score == data[i] && !isGameOver) {
                     $('#post-scores').prepend('<font color="green"><li>' + data[i] + '</li></font>');
+                    isGameOver = true;
                 }
                 else{
                     $('#post-scores').prepend('<li>' + data[i] + '</li>');
