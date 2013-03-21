@@ -58,23 +58,12 @@ Socket IO
 
 io.sockets.on('connection', function (socket) {
   socket.on('Game Over', function (data) {
-  	if (client.hexists('scores', socket.id)){
-  		client.hget('scores', socket.id, function (err, score) {
-  			if (score < data)
-  				client.hset('scores', socket.id, data);
-  		});
-  	}
-
-  	console.log(client.hexists('scores', socket.id));
-  	console.log(client.hget('scores', socket.id));
-  	console.log(data);
-
   	client.hgetall('scores', function (err, value) {
   		if (err) {
             console.error("error");
         }
         else{
-        	var ret = new Array();
+        	var ret = [data];
         	value = eval(value);
         	for (var j in value){
         		ret.push(parseInt(value[j]));
@@ -85,6 +74,17 @@ io.sockets.on('connection', function (socket) {
         	socket.emit('Get Scores', ret);
         }
   	});
+
+  	  	if (client.hexists('scores', socket.id)){
+  		client.hget('scores', socket.id, function (err, score) {
+  			if (score < data)
+  				client.hset('scores', socket.id, data);
+  		});
+  	}
+
+  	console.log(client.hexists('scores', socket.id));
+  	console.log(client.hget('scores', socket.id));
+  	console.log(data);
   	//console.log(socket.id);
     //console.log(data);
   });

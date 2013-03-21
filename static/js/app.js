@@ -292,10 +292,11 @@ function gameOver() {
 
         socket.on('Get Scores', function (data) {
             $('#post-scores').html("");
+            var myscore = false;
             for (var i = data.length - 1; i >= 0; i--) {
-                if (score == data[i] && !isGameOver) {
+                if (score == data[i] && !myscore) {
                     $('#post-scores').prepend('<font color="green"><li>' + data[i] + '</li></font>');
-                    isGameOver = true;
+                    myscore = true;
                 }
                 else{
                     $('#post-scores').prepend('<li>' + data[i] + '</li>');
