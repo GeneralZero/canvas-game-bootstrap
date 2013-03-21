@@ -1,5 +1,5 @@
-var http_port    = 3333
-	, https_port = 3332
+var http_port    = 3000
+	, https_port = 3001
 	, fs         = require('fs')
 	, options    = {
 		key: fs.readFileSync('./ssl/node.key'),
@@ -12,6 +12,7 @@ var express   = require('express')
 	, http    = require('http').createServer(app)
 	, https   = require('https').createServer(options, apps)
 	, redis   = require('redis')
+	, _       = require('underscore')
 	, io      = require('socket.io').listen(https);
 /*
 Finished Declaring varables
@@ -60,7 +61,26 @@ io.sockets.on('connection', function (socket) {
   	if (client.hexists('scores', socket.id) && client.hget('scores', socket.id) < data){
   		client.hset('scores', socket.id, data);
   	}
-    //console.log(socket.id);
+
+  	client.hgetall('scores', function (err, value) {
+  		if (err) {
+            console.error("error");
+        }
+        else{
+        	var ret = new Array();
+        	value = eval(value);
+        	for (var j in value){
+        		ret.push(parseInt(value[j]));
+        	}
+        	console.log(ret);
+        	ret = ret.sort(function(a,b){return b-a}).slice(0,5);
+        	console.log(ret);
+        	socket.emit('Get Scores', ret);
+        }
+  	});
+  	//console.log(socket.id);
     //console.log(data);
   });
+
+  socket
 });

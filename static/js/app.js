@@ -35,7 +35,7 @@ function main() {
 function init() {
     terrainPattern = ctx.createPattern(resources.get('img/terrain.png'), 'repeat');
 
-    document.getElementById('play-again').addEventListener('click', function() {
+    $('#play-again')[0].addEventListener('click', function() {
         reset();
     });
 
@@ -66,7 +66,7 @@ var isGameOver;
 var terrainPattern;
 
 var score = 0;
-var scoreEl = document.getElementById('score');
+var scoreEl = $('#score')[0];
 
 // Speed in pixels per second
 var playerSpeed = 200;
@@ -285,18 +285,31 @@ function renderEntity(entity) {
 
 // Game over
 function gameOver() {
-    document.getElementById('game-over').style.display = 'block';
-    document.getElementById('game-over-overlay').style.display = 'block';
+    $('#game-over')[0].style.display = 'block';
+    $('#game-over-overlay')[0].style.display = 'block';
     if (!isGameOver) {
         socket.emit("Game Over", score);
+
+        socket.on('Get Scores', function (data) {
+            $('#post-scores').html("");
+            for (var i = data.length - 1; i >= 0; i--) {
+                if (score == data[i]) {
+                    $('#post-scores').prepend('<font color="green"><li>' + data[i] + '</li></font>');
+                }
+                else{
+                    $('#post-scores').prepend('<li>' + data[i] + '</li>');
+                }
+            };
+            isGameOver = true;
+        });
     };
-    isGameOver = true;
+    
 }
 
 // Reset game to original state
 function reset() {
-    document.getElementById('game-over').style.display = 'none';
-    document.getElementById('game-over-overlay').style.display = 'none';
+    $('#game-over')[0].style.display = 'none';
+    $('#game-over-overlay')[0].style.display = 'none';
     isGameOver = false;
     gameTime = 0;
     score = 0;
