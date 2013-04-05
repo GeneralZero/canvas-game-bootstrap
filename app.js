@@ -24,7 +24,8 @@ io.configure( function() {
 // Set Timeout
 
 app.get('*', function (req,res) {
-	res.redirect('https://127.0.0.1:'+ https_port +req.url)
+	res.redirect('https://'+ req.ip + ':' + https_port +req.url);
+  console.log('https://'+ req.ip + ':' + https_port +req.url);
 })
 
 //Fowards over HTTPS
