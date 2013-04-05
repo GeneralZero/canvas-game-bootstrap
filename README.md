@@ -10,4 +10,4 @@ Install and run redis
 
 `node app.js`
 
-**Then go to http://localhost:3000 or https://localhost:3001**
+**Then go to [localhost](http://localhost:3000) or [secure localhost](https://localhost:3001)**
