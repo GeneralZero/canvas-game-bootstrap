@@ -12,7 +12,6 @@ var express   = require('express')
 	, http    = require('http').createServer(app)
 	, https   = require('https').createServer(options, apps)
 	, redis   = require('redis')
-	, _       = require('underscore')
 	, io      = require('socket.io').listen(https);
 /*
 Finished Declaring varables
