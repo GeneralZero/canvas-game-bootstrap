@@ -23,8 +23,16 @@ io.configure( function() {
 // Set Timeout
 
 app.get('*', function (req,res) {
-	res.redirect('https://'+ req.ip + ':' + https_port +req.url);
-  console.log('https://'+ req.ip + ':' + https_port +req.url);
+  if(req.headers.host.indexOf(':') > -1) {
+    res.redirect('https://'+ req.headers.host.slice(0, req.headers.host.indexOf(':')) + ':' + https_port +req.url);
+    console.log('https://'+ req.headers.host.slice(0, req.headers.host.indexOf(':')) + ':' + https_port +req.url);
+  }
+  else
+  {
+    res.redirect('https://'+ req.headers.host + ':' + https_port +req.url);
+    console.log('https://'+ req.headers.host + ':' + https_port +req.url);
+  }
+
 })
 
 //Fowards over HTTPS
